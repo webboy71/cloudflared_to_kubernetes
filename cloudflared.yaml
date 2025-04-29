@@ -53,6 +53,8 @@ metadata:
   name: cloudflared
 # Move this service down to replace the one in the config.yaml for "cloudflared as ingress controller"
 #service: http://mongo-express-service.default.svc.cluster.local:8081
+# Move this service down to replace the one in the config.yaml for "cloudflared to nginx"
+#service: http://ingress-nginx-controller.ingress-nginx.svc.cluster.local:80
 data:
   config.yaml: |
     tunnel: e6271233-abcb-40e1-9eca-ce21b3347ceb
