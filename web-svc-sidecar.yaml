@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: httpbin-deployment
+  labels:
+    app: httpbin
 spec:
   selector:
     matchLabels:
