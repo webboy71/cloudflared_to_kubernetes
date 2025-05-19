@@ -8,7 +8,7 @@ spec:
   selector:
     matchLabels:
       app: httpbin
-  replicas: 2
+  replicas: 8
   template:
     metadata:
       labels:

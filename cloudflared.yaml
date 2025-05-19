@@ -1,68 +1,49 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cloudflared
+  labels:
+    app: cloudflared
+  name: cloudflared-deployment
+  namespace: default
 spec:
+  replicas: 2
   selector:
     matchLabels:
-      app: cloudflared
-  replicas: 2 # You could also consider elastic scaling for this deployment
+      pod: cloudflared
   template:
     metadata:
+      creationTimestamp: null
       labels:
-        app: cloudflared
+        pod: cloudflared
     spec:
+      securityContext:
+        sysctls:
+          - name: net.ipv4.ping_group_range
+            value: "65532 65532"
       containers:
-      - name: cloudflared
-        image: cloudflare/cloudflared:2025.4.0
-        args:
-        - tunnel
-        - --config
-        - /etc/cloudflared/config/config.yaml
-        - run
-        livenessProbe:
-          httpGet:
-            path: /ready
-            port: 2000
-          failureThreshold: 1
-          initialDelaySeconds: 10
-          periodSeconds: 10
-        volumeMounts:
-        - name: config
-          mountPath: /etc/cloudflared/config
-          readOnly: true
-        - name: creds
-          mountPath: /etc/cloudflared/creds
-          readOnly: true
-      volumes:
-      - name: creds
-        secret:
-          secretName: tunnel-credentials
-      # Create a config.yaml file from the ConfigMap below.
-      - name: config
-        configMap:
+        - command:
+            - cloudflared
+            - tunnel
+            - --no-autoupdate
+            # In a k8s environment, the metrics server needs to listen outside the pod it runs on.
+            # The address 0.0.0.0:2000 allows any pod in the namespace.
+            - --metrics
+            - 0.0.0.0:2000
+            - run
+          env:   
+            - name: TUNNEL_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: tunnel-secrets
+                  key: web-service
+          image: cloudflare/cloudflared:latest
           name: cloudflared
-          items:
-          - key: config.yaml
-            path: config.yaml
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: cloudflared
-# Move this service down to replace the one in the config.yaml for "cloudflared as ingress controller"
-#service: http://mongo-express-service.default.svc.cluster.local:8081
-# Move this service down to replace the one in the config.yaml for "cloudflared to nginx"
-#service: http://ingress-nginx-controller.ingress-nginx.svc.cluster.local:80
-data:
-  config.yaml: |
-    tunnel: e6271233-abcb-40e1-9eca-ce21b3347ceb
-    credentials-file: /etc/cloudflared/creds/credentials.json
-    metrics: 0.0.0.0:2000
-    no-autoupdate: true
-    noTLSVerify: true
-    ingress:
-    - hostname: mong.fi-hiqpublic.cftenant.com
-      service: http://ingress-nginx-controller.ingress-nginx.svc.cluster.local:80
-    - service: http_status:404
+          livenessProbe:
+            httpGet:
+              # Cloudflared has a /ready endpoint which returns 200 if and only if
+              # it has an active connection to the edge.
+              path: /ready
+              port: 2000
+            failureThreshold: 1
+            initialDelaySeconds: 10
+            periodSeconds: 10

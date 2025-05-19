@@ -4,7 +4,7 @@ metadata:
   labels:
     app: cloudflared
   name: cloudflared-deployment
-  namespace: default
+  namespace: web
 spec:
   replicas: 2
   selector:
@@ -30,9 +30,12 @@ spec:
             - --metrics
             - 0.0.0.0:2000
             - run
-          args:
-            - --token
-            - eyJhIjoiOGZiYjI0MWRjNmVhYThiNDNkNzM0YTNkNDc4Nzg2YjAiLCJ0IjoiMzU4MGU1MzUtMGQyNi00NjJkLWI0OWUtYmQxNTM4NDdjZjM0IiwicyI6Ik9HWmhNelV3TkRndE1qazFPUzAwTkRreExXSTVPV1V0WkRnMlpXVmlZVE0wWlRGbSJ9
+          env:   
+            - name: TUNNEL_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: tunnel-secrets
+                  key: web-service
           image: cloudflare/cloudflared:latest
           name: cloudflared
           livenessProbe:
