@@ -1,8 +1,13 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: me-ingress
+  name: cf-ingress
   namespace: default
+#below might be useful for troubleshooting
+  #annotations:
+    #nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    #nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+
 spec:
   ingressClassName: nginx
   rules:
