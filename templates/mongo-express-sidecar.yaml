@@ -60,7 +60,7 @@ spec:
             - name: TUNNEL_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: tunnel-secrets
+                  name: mongo-tunnel-secret
                   key: mongo-express-service
           #image: ghcr.io/webboy71/cfd-linuxamd64:2025-5-8v5
           image: cloudflare/cloudflared:latest

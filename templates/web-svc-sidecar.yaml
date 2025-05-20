@@ -34,7 +34,7 @@ spec:
             - name: TUNNEL_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: tunnel-secrets
+                  name: web-svc-tunnel-secret
                   key: web-service
           image: cloudflare/cloudflared:latest
           name: cloudflared
