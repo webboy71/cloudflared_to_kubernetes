@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mongo-tunnel-secret
+  namespace: mongo
+type: Opaque
+data:
+  mongo-express-service: ZXlKaElqb2lPR1ppWWpJME1XUmpObVZoWVRoaU5ETmtOek0wWVROa05EYzROemcyWWpBaUxDSjBJam9pTmpabE9USTFNRE10TXpkbU5TMDBPVE13TFdKak1Ua3RZV0pqTnpsaU1qQTFNV0psSWl3aWN5STZJazFVUW1oWlYwcG9XbGRSZEZwcWEzZE5hVEF3VGxSRmQweFVhelJaZWtsMFdtcFNhMDlIUlhoYVZFRXhUbGRWTVNKOQ==
