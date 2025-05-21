@@ -1,6 +1,6 @@
 apiVersion: v2
-name: cloudflared_simple_deploy
-description: A simple example of deploying a cloudflare tunnel as a deployment in Kubernetes
+name: cloudflared_namespace_isolation
+description: A simple example of deploying a cloudflare tunnel using a network policy to isolate apps in namespaces in Kubernetes
 
 # A chart can be either an 'application' or a 'library' chart.
 #

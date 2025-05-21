@@ -4,7 +4,7 @@ metadata:
   labels:
     app: cloudflared
   name: cloudflared-deployment
-  namespace: default
+  namespace: mongo
 spec:
   replicas: 2
   selector:
@@ -34,8 +34,8 @@ spec:
             - name: TUNNEL_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: tunnel-secrets
-                  key: web-service
+                  name: mongo-tunnel-secret
+                  key: mongo-express-service
           image: cloudflare/cloudflared:latest
           name: cloudflared
           livenessProbe:

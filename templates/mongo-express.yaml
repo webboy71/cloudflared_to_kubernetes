@@ -4,7 +4,7 @@ metadata:
   name: mongo-express
   labels:
     app: mongo-express
-  namespace: default
+  namespace: mongo
 spec:
   replicas: 1
   selector:
