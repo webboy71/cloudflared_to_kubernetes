@@ -1,5 +1,19 @@
-# cloudflared_to_kubernetes
+# namespace isolation example
 
-simple deployment example, easiest to deploy with helm (helm install cloudflare-simple-deploy .)
+All the examples require tunnels created via the Cloudflare GUI or API. 
 
-tunnel secrets are base64 encoded and stored and helm values (i.e. you should add a values.yaml file) - replace helm template stuff in tunnel-secrets if desired (remember to add to .gitignore if pushing to a repo)
+Easiest to deploy with helm (e.g. ```helm install cloudflare-namespaces .```)
+
+Tunnel secrets are base64 encoded and stored and helm values (i.e. you should add a values.yaml file) (remember to add to .gitignore if pushing to a repo)
+
+e.g. ```echo -n <token from cloudflare> | base64```
+
+Create a values.yaml file for helm: 
+
+```
+data:
+  webService: <tunnel-token here>
+  mongoExpressService: <tunnel-token here> 
+```
+
+![namespaces diagram](https://github.com/webboy71/cloudflared_to_kubernetes/blob/aea4218b4ff088046fb75a69b18df7783da601fa/images/%20NS.png)
