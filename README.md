@@ -1,8 +1,12 @@
 # cloudflared_to_kubernetes
 
-Don't use this repo, rather pick a branch that you're interested in and work with that.
+NOTE: Don't use this branch (main,) rather pick the branch that you're interested in and work with that.
 
-All the examples require tunnels created via the Cloudflare GUI or API, create a values.yaml file for helm to feed in the tunnel tokens:
+
+
+All the examples require tunnels created via the Cloudflare GUI or API. 
+
+Create a values.yaml file for helm to feed in the tunnel tokens (values.yaml is in .gitignore so as not to be pushed to any repo):
 
 ```
 data:
